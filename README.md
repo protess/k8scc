@@ -42,6 +42,10 @@ _It's docker enuf said._
 Install Docker for Mac:  
 https://docs.docker.com/docker-for-mac/install/
 
+Follow below guide to increase resource limit:  
+https://docs.docker.com/docker-for-mac/#advanced
+
+
 ### Install Golang
 Install Go with gvm:
 https://github.com/moovweb/gvm
@@ -61,6 +65,7 @@ _개편함_
 _KIND 도커에 쿠버네티스 클러스터를 생성해주는 툴 -개쉬움-_
 
 https://github.com/kubernetes-sigs/kind  
+https://kind.sigs.k8s.io/docs/user/quick-start
 
     GO111MODULE="on" go get sigs.k8s.io/kind@v0.4.0
 
@@ -69,16 +74,20 @@ https://github.com/kubernetes-sigs/kind
 
 ## Let's create a k8s cluster
 
-### Create k8s cluster with KIND
+### Create k8s multi-node cluster with KIND
 
-    kind create cluster
+    kind create cluster --name kind-m --config kind-test-config.yaml
 
 ### Check k8s config  
-_add configs from .kube/kind-config-kind to .kube/config file_
+_add configs from .kube/kind-config-kind-m to .kube/config file_
+or:
+
+    export KUBECONFIG="$(kind get kubeconfig-path --name="kind-m")"
 
 >Note: k8s config 은 다수의 context(clusters) 를 가질수 있습니다.
-### Check k8s cluster nodes and pods
+### Check k8s cluster
 
+    k cluster-info
     k get nodes
     k get pods --all-namespaces
 
@@ -104,21 +113,44 @@ Run below command from terminal:
 
     k proxy
 
-Open following link with your favorite browser:  
+Open following link with your _favorite_ browser:  
 http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
 
+### Deployments
+
+### Services
+
+### Stateful Sets
+
+### Daemon Sets
+
 ## Endgame
+
+### Delete Resources
+    kubectl --namespace=webapp delete --all
+    kubectl delete --namespace webapp
 
 ### Delete KIND
 
     kind delete cluster
 
+## mU57 H4ve CL1 700L2
+shell auto completion(쉘에서 자동완성 기능)  
+https://kubernetes.io/docs/tasks/tools/install-kubectl/?source=#enabling-shell-autocompletion
+
+kubectx/kubens(k8s context swith 그리고 k8s namespace 체인져)  
+https://github.com/ahmetb/kubectx
+
+kube ps1(쉘 프롬프트에서 k8s를 사용하기 편하게 꾸며준다)  
+https://github.com/jonmosco/kube-ps1
+
 ## Glossary
 
 k8s = 쿠버네티스, k와 s사이에 8개의 알파벳이 있어서 k8s  
-kubectl = 큐브커틀 또는 큐브씨티엘, 쿠버네티스 cli 커맨드  
+kubectl = 큐브커틀 또는 큐브씨티엘, 쿠버네티스 cli 커맨드 툴  
 kubeadm = 큐브애드민, 쿠버네티스 클러스터 생성해주는 툴  
 kubelet = 큐브렛, 노드의 pod 관리툴  
 kube-proxy = 큐브 프록시, pod 네트워크 관리툴  
 etcd = 앳씨디, key-value 스토어 여기에 모든 클러스터 state 가 저장된다  
-TL;DR = Too long didn't read : 읽기 매우 귀찮은 사람들을 위한
+TL;DR = Too long didn't read : 읽기 매우 귀찮은 사람들을 위한  
+1337 = https://namu.wiki/w/%EB%A6%AC%ED%8A%B8
