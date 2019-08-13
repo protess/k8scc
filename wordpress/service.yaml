@@ -8,6 +8,9 @@ metadata:
 spec:
   type: NodePort
   ports:
-    - port: 80
+    - nodePort: 31689
+      port: 80
+      protocol: TCP
+      targetPort: 80
   selector:
-    name: wordpress
+    app: wordpress

@@ -26,6 +26,9 @@ https://kubernetes.io/ko/docs/concepts/overview/what-is-kubernetes/
 _구글클라우드 문서에서 발췌:_  
 https://cloud.google.com/containers/?hl=ko
 
+_이어형님 발표자료:_  
+https://engineering.linecorp.com/ko/blog/immutable-kubernetes-architecture-deepdive/
+
 **Must Read:** _Dockerfile_ Best Practices https://bit.ly/dockerbp 
 
 ## Preliminary Steps
@@ -57,7 +60,7 @@ or Download from [golang.org]:
 ### Add alias to kubectl
 _개편함_
 
-    export alias k='kubectl'
+    alias k='kubectl'
 
 ### Install KIND
 _[KIND] 도커에 쿠버네티스 클러스터를 생성해주는 툴 -개쉬움-_
@@ -104,15 +107,29 @@ Run below command to make it work:
     k apply -f ./dashboard
 
 #### Connect:
+Run this command to get token:
 
-Run below command from terminal:
+    ./dashboard/getsecret.sh
+    ### copy hash code from token: to clipboard
+
+Run below command from another terminal:
 
     k proxy
 
 _Click [this-link] to open dashboard_  
 
+#### Extra step:
+To disable dashboard time-out:
+
+    kubens kubernetes-dashboard
+    k edit deployment kubernetes-dashboard
+
+    ### add following after arg:
+    - args:
+      - --token-ttl=0
+
 ### Stateful Sets
-실행 순서를 보장 호스트 이름과 볼륨을 일정하게 정하는것이 가능(Stateful 한 앱에 유용)하다.
+실행 순서를 보장 호스트 이름과 볼륨을 일정하게 정하는것이 가능(데이터베이스 같은 앱에 유용)하다.
 
 #### Deploy MariaDB(MySQL) for Wordpress
 Deploy MariaDB:
@@ -164,7 +181,7 @@ Scale in/out Deployments:
 
 ### Delete KIND
 
-    kind delete cluster
+    kind delete cluster --name kind-m
 
 ## mU57 H4ve CL1 700L2
 shell [auto-completion](쉘에서 자동완성 기능)  
