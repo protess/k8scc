@@ -33,28 +33,28 @@ https://engineering.linecorp.com/ko/blog/immutable-kubernetes-architecture-deepd
 
 ## Preliminary Steps
 
-### Install [Homebrew]
-_맥용 패키지툴 must have!_
+### Install _[Homebrew]_
+맥용 패키지툴 **Must Have!**
 
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
 
 ### Install Docker
 
-_It's docker enuf said._
+It's **_docker_** enuf said.
 
 Install [docker-for-mac].  
-Follow [docker-guide] to increase resource limit.
+Follow [docker-guide] to increase resource limit(need to set memory to 8GB+).
 
 
 ### Install Golang
-Install Go with [gvm]:
+Install **_Go_** with [gvm]:
 
 
     bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
 
     gvm install go1.12
-or Download from [golang.org]:  
+or Download from _[golang.org]_:  
 
 
 ### Add alias to kubectl
@@ -63,7 +63,7 @@ _개편함_
     alias k='kubectl'
 
 ### Install KIND
-_[KIND] 도커에 쿠버네티스 클러스터를 생성해주는 툴 -개쉬움-_
+_[KIND]_ 도커에 쿠버네티스 클러스터를 생성해주는 툴 _easy mode_
 
 
     GO111MODULE="on" go get sigs.k8s.io/kind@v0.4.0
@@ -78,12 +78,12 @@ _[KIND] 도커에 쿠버네티스 클러스터를 생성해주는 툴 -개쉬움
     kind create cluster --name kind-m --config kind-test-config.yaml
 
 ### Check k8s config  
-_add configs from .kube/kind-config-kind-m to .kube/config file_
+add configs from _.kube/kind-config-kind-m_ to _.kube/config_ file
 or:
 
     export KUBECONFIG="$(kind get kubeconfig-path --name="kind-m")"
 
->Note: k8s config 은 다수의 context(clusters) 를 가질수 있습니다.
+>**Note**: k8s config 은 다수의 context(clusters) 를 가질수 있습니다.
 ### Check k8s cluster
 
     k cluster-info
@@ -92,34 +92,24 @@ or:
 
 ## Play with k8s
 
-### Install [HELM]
-    brew install kubernetes-helm
-    helm init --history-max 200
-
 ### Web UI(Dashboard)
-#### Install [dashboard]:
+#### Install _[dashboard]:_
 
     kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta1/aio/deploy/recommended.yaml
 
-#### Configure:
-Run below command to make it work:
-
+    ### Run below to fix auth
     k apply -f ./dashboard
-
-#### Connect:
-Run this command to get token:
-
+    
+    ### Run below and copy hash code from token:  
     ./dashboard/getsecret.sh
-    ### copy hash code from token: to clipboard
-
-Run below command from another terminal:
-
+    
+    ### Run below from another terminal:
     k proxy
 
-_Click [this-link] to open dashboard_  
+Click **_[this-link]_** to open dashboard
 
 #### Extra step:
-To disable dashboard time-out:
+To _disable_ dashboard time-out:
 
     kubens kubernetes-dashboard
     k edit deployment kubernetes-dashboard
@@ -132,12 +122,12 @@ To disable dashboard time-out:
 실행 순서를 보장 호스트 이름과 볼륨을 일정하게 정하는것이 가능(데이터베이스 같은 앱에 유용)하다.
 
 #### Deploy MariaDB(MySQL) for Wordpress
-Deploy MariaDB:
+Deploy _MariaDB:_
     
     k create namespace wordpress
     k apply -f ./mysql
 
-Check Stateful Sets:
+Check _Stateful Sets:_
 
     kubens wordpress
     k get sts
@@ -145,8 +135,10 @@ Check Stateful Sets:
 
 ### Deployments
 
-Stateless 한 앱을 배포하기 위한 리소스 타입  
-_[arisu-blog] 참조_
+디플로이먼트는 _stateless/ephemeral_ 한 앱을 배포할때 사용하는 가장 기본적인 컨트롤러입니다.
+
+_[arisu-blog]_ 참조
+
 #### Deploy Wordpress
 
 Deploy and edit wordpress:
@@ -176,10 +168,10 @@ Scale in/out Deployments:
 ## Endgame
 
 ### Delete Resources
-    k --namespace=webapp delete --all
-    k delete --namespace webapp
+    k --namespace=wordpress delete --all
+    k delete --namespace wordpress
 
-### Delete KIND
+### rm -rf /
 
     kind delete cluster --name kind-m
 
