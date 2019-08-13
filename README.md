@@ -77,14 +77,14 @@ _[KIND]_ 도커에 쿠버네티스 클러스터를 생성해주는 툴 _easy mod
 
     kind create cluster --name kind-m --config kind-test-config.yaml
 
-### Check k8s config  
-add configs from _.kube/kind-config-kind-m_ to _.kube/config_ file
+### Change k8s config  
+Add configs from _'.kube/kind-config-kind-m'_ to _'.kube/config'_ file
 or:
 
     export KUBECONFIG="$(kind get kubeconfig-path --name="kind-m")"
 
 >**Note**: k8s config 은 다수의 context(clusters) 를 가질수 있습니다.
-### Check k8s cluster
+### Verify k8s cluster
 
     k cluster-info
     k get nodes
@@ -157,7 +157,7 @@ Scale in/out Deployments:
     k get svc
 
 
-### Useful commands
+### ~ commands
 
     k version --short
     k api-resources
@@ -167,7 +167,7 @@ Scale in/out Deployments:
 
 ## Endgame
 
-### Delete Resources
+### ⌫
     k --namespace=wordpress delete --all
     k delete --namespace wordpress
 
