@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  labels:
+    name: mysql
+  namespace: wordpress
+spec:
+  ports:
+    - port: 3306
+      name: mysql
+      targetPort: 3306
+      protocol: TCP
+  clusterIP: None      
+  selector: 
+    name: mysql
+

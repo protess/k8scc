@@ -8,11 +8,11 @@
 
 쿠버네티스란 명칭은 키잡이(helmsman)이나 파일럿을 뜻하는 그리스어에서 유래했다. 구글이 2014년에 쿠버네티스 프로젝트를 오픈소스화했다. 쿠버네티스는 구글의 15여년에 걸친 대규모 상용 워크로드 운영 경험을 기반으로 만들어졌으며 커뮤니티의 최고의 아이디어와 적용 사례가 결합되었다.
 
-쿠버네티스 한글 문서:  
-https://kubernetes.io/ko/docs/concepts/overview/what-is-kubernetes/
-
-쿠버네티스 기초 블로그:  
+_subicura님의 쿠버네티스 시작하기 블로그에서 발췌:_  
 https://subicura.com/2019/05/19/kubernetes-basic-1.html
+
+쿠버네티스 공식 한글 문서:  
+https://kubernetes.io/ko/docs/concepts/overview/what-is-kubernetes/
 
 
 ### 컨테이너란?
@@ -23,13 +23,14 @@ https://subicura.com/2019/05/19/kubernetes-basic-1.html
 
 가상 환경에 익숙하다면 컨테이너를 가상 머신(VM)에 비교하여 생각하면 이해하기 쉽습니다. VM의 개념은 이미 익히 알고 계실 것입니다. 호스트 운영체제에서 구동되며 그 바탕이 되는 하드웨어에 가상으로 액세스하는 Linux, Windows 등의 게스트 운영체제를 의미합니다. 컨테이너는 가상 머신과 마찬가지로 애플리케이션을 관련 라이브러리 및 종속 항목과 함께 패키지로 묶어 소프트웨어 서비스 구동을 위한 격리 환경을 마련해 줍니다. 그러나 아래에서 살펴보듯 VM과의 유사점은 여기까지입니다. 컨테이너를 사용하면 개발자와 IT 운영팀이 훨씬 작은 단위로 업무를 수행할 수 있으므로 그에 따른 이점도 훨씬 많습니다.
 
+_구글클라우드 문서에서 발췌:_  
 https://cloud.google.com/containers/?hl=ko
 
 **Must Read:** _Dockerfile_ Best Practices https://bit.ly/dockerbp 
 
 ## Preliminary Steps
 
-### Install Homebrew
+### Install [Homebrew]
 _맥용 패키지툴 must have!_
 
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -39,22 +40,19 @@ _맥용 패키지툴 must have!_
 
 _It's docker enuf said._
 
-Install Docker for Mac:  
-https://docs.docker.com/docker-for-mac/install/
-
-Follow below guide to increase resource limit:  
-https://docs.docker.com/docker-for-mac/#advanced
+Install [docker-for-mac].  
+Follow [docker-guide] to increase resource limit.
 
 
 ### Install Golang
-Install Go with gvm:
-https://github.com/moovweb/gvm
+Install Go with [gvm]:
+
 
     bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
 
     gvm install go1.12
-or Download from golang.org:  
-https://golang.org/dl/
+or Download from [golang.org]:  
+
 
 ### Add alias to kubectl
 _개편함_
@@ -62,10 +60,8 @@ _개편함_
     export alias k='kubectl'
 
 ### Install KIND
-_KIND 도커에 쿠버네티스 클러스터를 생성해주는 툴 -개쉬움-_
+_[KIND] 도커에 쿠버네티스 클러스터를 생성해주는 툴 -개쉬움-_
 
-https://github.com/kubernetes-sigs/kind  
-https://kind.sigs.k8s.io/docs/user/quick-start
 
     GO111MODULE="on" go get sigs.k8s.io/kind@v0.4.0
 
@@ -93,12 +89,12 @@ or:
 
 ## Play with k8s
 
-### Install HELM
+### Install [HELM]
     brew install kubernetes-helm
     helm init --history-max 200
+
 ### Web UI(Dashboard)
-#### Install:
-https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
+#### Install [dashboard]:
 
     kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta1/aio/deploy/recommended.yaml
 
@@ -113,44 +109,118 @@ Run below command from terminal:
 
     k proxy
 
-Open following link with your _favorite_ browser:  
-http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
+_Click [this-link] to open dashboard_  
+
+### Stateful Sets
+실행 순서를 보장 호스트 이름과 볼륨을 일정하게 정하는것이 가능(Stateful 한 앱에 유용)하다.
+
+#### Deploy MariaDB(MySQL) for Wordpress
+Deploy MariaDB:
+    
+    k create namespace wordpress
+    k apply -f ./mysql
+
+Check Stateful Sets:
+
+    kubens wordpress
+    k get sts
+    k describe sts mysql
 
 ### Deployments
 
+Stateless 한 앱을 배포하기 위한 리소스 타입  
+_[arisu-blog] 참조_
+#### Deploy Wordpress
+
+Deploy and edit wordpress:
+
+    k apply -f ./wordpress
+
+Scale in/out Deployments:
+
+    k scale deploy wordpress --replicas=3
+    k scale deploy wordpress --replicas=1
+
 ### Services
+로드 밸런서와 같은 역할 포드들을 외부 네트워크와 연결해준다(디스커버리 역할도 함).   
+이미 서비스는 위에서 실행했으니 확인해본다:
 
-### Stateful Sets
+    k get svc
 
-### Daemon Sets
+
+### Useful commands
+
+    k version --short
+    k api-resources
+    k explain deployment --recursive
+    k explain svc --recursive
+    k get pods -o wide --sort-by="{.spec.nodeName}" --all-namespaces
 
 ## Endgame
 
 ### Delete Resources
-    kubectl --namespace=webapp delete --all
-    kubectl delete --namespace webapp
+    k --namespace=webapp delete --all
+    k delete --namespace webapp
 
 ### Delete KIND
 
     kind delete cluster
 
 ## mU57 H4ve CL1 700L2
-shell auto completion(쉘에서 자동완성 기능)  
-https://kubernetes.io/docs/tasks/tools/install-kubectl/?source=#enabling-shell-autocompletion
+shell [auto-completion](쉘에서 자동완성 기능)  
+[kubectx/kubens](k8s context swith 그리고 k8s namespace 체인져)  
+[kube-ps1](쉘 프롬프트에서 k8s를 사용하기 편하게 꾸며준다)  
 
-kubectx/kubens(k8s context swith 그리고 k8s namespace 체인져)  
-https://github.com/ahmetb/kubectx
-
-kube ps1(쉘 프롬프트에서 k8s를 사용하기 편하게 꾸며준다)  
-https://github.com/jonmosco/kube-ps1
 
 ## Glossary
 
 k8s = 쿠버네티스, k와 s사이에 8개의 알파벳이 있어서 k8s  
-kubectl = 큐브커틀 또는 큐브씨티엘, 쿠버네티스 cli 커맨드 툴  
+kubectl = 큐브커들 또는 큐브씨티엘, 쿠버네티스 cli 커맨드 툴  
 kubeadm = 큐브애드민, 쿠버네티스 클러스터 생성해주는 툴  
 kubelet = 큐브렛, 노드의 pod 관리툴  
 kube-proxy = 큐브 프록시, pod 네트워크 관리툴  
 etcd = 앳씨디, key-value 스토어 여기에 모든 클러스터 state 가 저장된다  
 TL;DR = Too long didn't read : 읽기 매우 귀찮은 사람들을 위한  
-1337 = https://namu.wiki/w/%EB%A6%AC%ED%8A%B8
+1337 = [leet]
+
+[leet]:
+https://namu.wiki/w/%EB%A6%AC%ED%8A%B8
+
+[kube-ps1]:
+https://github.com/jonmosco/kube-ps1
+
+[kubectx/kubens]:
+https://github.com/ahmetb/kubectx
+
+[auto-completion]:
+https://kubernetes.io/docs/tasks/tools/install-kubectl/?source=#enabling-shell-autocompletion
+
+[dashboard]:
+https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
+
+[HELM]:
+https://helm.sh/docs/using_helm/
+
+[KIND]:
+https://kind.sigs.k8s.io/docs/user/quick-start
+
+[golang.org]:
+https://golang.org/dl/
+
+[gvm]:
+https://github.com/moovweb/gvm
+
+[docker-guide]:
+https://docs.docker.com/docker-for-mac/#advanced
+
+[docker-for-mac]:
+https://docs.docker.com/docker-for-mac/install/
+
+[Homebrew]:
+https://brew.sh/
+
+[this-link]:
+http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
+
+[arisu-blog]:
+https://arisu1000.tistory.com/27833
