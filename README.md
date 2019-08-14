@@ -114,7 +114,7 @@ To _disable_ session time-out:
     - args:
       - --token-ttl=0
 
-### Stateful Sets
+## Stateful Sets
 실행 순서를 보장 호스트 이름과 볼륨을 일정하게 정하는것이 가능(데이터베이스 같은 앱에 유용)하다.
 
 #### Deploy MariaDB(MySQL) for Wordpress
@@ -129,24 +129,28 @@ Check _Stateful Sets:_
     k get sts
     k describe sts mysql
 
-### Deployments
+## Deployments
 
 디플로이먼트는 _stateless/ephemeral_ 한 앱을 배포할때 사용하는 가장 기본적인 컨트롤러입니다.
 
 **_[arisu's blog](https://arisu1000.tistory.com/27833)_** 참조
 
-#### Deploy Wordpress
+### Deploy Wordpress
 
 Deploy and edit wordpress:
 
     k apply -f ./wordpress
+
+    ### edit deployment
+    k edit deploy wordpress
+
 
 Scale in/out Deployments:
 
     k scale deploy wordpress --replicas=3
     k scale deploy wordpress --replicas=1
 
-### Services
+## Services
 로드 밸런서와 같은 역할 포드들을 외부 네트워크와 연결해준다(디스커버리 역할도 함).   
 이미 서비스는 위에서 실행했으니 확인해본다:
 
