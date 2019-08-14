@@ -8,10 +8,10 @@
 
 쿠버네티스란 명칭은 키잡이(helmsman)이나 파일럿을 뜻하는 그리스어에서 유래했다. 구글이 2014년에 쿠버네티스 프로젝트를 오픈소스화했다. 쿠버네티스는 구글의 15여년에 걸친 대규모 상용 워크로드 운영 경험을 기반으로 만들어졌으며 커뮤니티의 최고의 아이디어와 적용 사례가 결합되었다.
 
-_subicura님의 쿠버네티스 시작하기 [블로그](https://subicura.com/2019/05/19/kubernetes-basic-1.html)에서 발췌_  
+_subicura님의 **[쿠버네티스 시작하기 블로그](https://subicura.com/2019/05/19/kubernetes-basic-1.html)** 에서 발췌_  
 
 
-[쿠버네티스 공식 한글 문서](https://kubernetes.io/ko/docs/concepts/overview/what-is-kubernetes/)  
+**_[쿠버네티스 공식 한글 문서](https://kubernetes.io/ko/docs/concepts/overview/what-is-kubernetes/)_**  
 
 
 
@@ -23,13 +23,13 @@ _subicura님의 쿠버네티스 시작하기 [블로그](https://subicura.com/20
 
 가상 환경에 익숙하다면 컨테이너를 가상 머신(VM)에 비교하여 생각하면 이해하기 쉽습니다. VM의 개념은 이미 익히 알고 계실 것입니다. 호스트 운영체제에서 구동되며 그 바탕이 되는 하드웨어에 가상으로 액세스하는 Linux, Windows 등의 게스트 운영체제를 의미합니다. 컨테이너는 가상 머신과 마찬가지로 애플리케이션을 관련 라이브러리 및 종속 항목과 함께 패키지로 묶어 소프트웨어 서비스 구동을 위한 격리 환경을 마련해 줍니다. 그러나 아래에서 살펴보듯 VM과의 유사점은 여기까지입니다. 컨테이너를 사용하면 개발자와 IT 운영팀이 훨씬 작은 단위로 업무를 수행할 수 있으므로 그에 따른 이점도 훨씬 많습니다.
 
-_[구글클라우드 문서](https://cloud.google.com/containers/?hl=ko)에서 발췌:_  
+**_[구글클라우드 문서](https://cloud.google.com/containers/?hl=ko)_** 에서 발췌:  
 
 
-_이어형님 [발표자료](https://engineering.linecorp.com/ko/blog/immutable-kubernetes-architecture-deepdive/):_  
+이어형님 **_[발표자료](https://engineering.linecorp.com/ko/blog/immutable-kubernetes-architecture-deepdive/):_**  
 
 
-**Must Read:** _Dockerfile_ [Best Practices](https://bit.ly/dockerbp)
+**Must Read:** _Dockerfile **[Best Practices](https://bit.ly/dockerbp)**_
 
 ## Preliminary Steps
 
@@ -179,6 +179,13 @@ Scale in/out Deployments:
 shell **_[auto-completion]_**(쉘에서 자동완성 기능)  
 **_[kubectx/kubens]_**(k8s context swith 그리고 k8s namespace 체인져)  
 **_[kube ps1](https://github.com/jonmosco/kube-ps1)_**(쉘 프롬프트에서 k8s를 사용하기 편하게 꾸며준다)  
+
+## Something you may want to try
+
+### Autoscaler
+
+    ### not tested it may not work properly
+    k apply -f ./extra
 
 
 ## Glossary
