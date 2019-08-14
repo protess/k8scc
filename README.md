@@ -48,14 +48,10 @@ Follow **_[docker guide](https://docs.docker.com/docker-for-mac/#advanced)_** to
 
 
 ### Install Golang
-Install **_Go_** with **_[gvm]:_**
+Install **_Go_** download from **_[golang.org]_**  
 
 
-    bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
-
-    gvm install go1.12
-or Download from **_[golang.org]:_**  
-
+You can manage **_Go_** verions with **_[gvm]_**
 
 ### Add alias to kubectl
 _개편함_
