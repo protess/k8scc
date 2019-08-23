@@ -142,7 +142,7 @@ Scale in/out Deployments:
 
 ### Expose & Test
 
-Intall _socat_ to expose 80/443 port:
+Intall _socat_ to expose local 80 port:
 
   
     node_port=$(kubectl get service -n ingress-nginx ingress-nginx -o=jsonpath="{.spec.ports[?(@.port == ${port})].nodePort}")
