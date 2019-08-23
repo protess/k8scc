@@ -1,4 +1,7 @@
 # Kubernetes Crash Course
+
+Kubernetes Crash Course Blog Post(KR) - no link yet
+
 ## Prerequisite
 > _Requirement: Mac model 2010+, OS 10.12+_
 ### Docker
@@ -30,7 +33,7 @@ You can manage **_Go_** verions with **_[gvm]_**
     
     alias chrome="/Applications/Google\\ \\Chrome.app/Contents/MacOS/Google\\ \\Chrome"
 
-[
+
 ### Useful Tools
 
 kubectl command shell _**[auto-completion]**_  
@@ -147,7 +150,7 @@ Intall _socat_ to expose 80/443 port:
     docker run -d --name kind-proxy-80 \
     --publish 127.0.0.1:80:80 \
     --link kind-m-control-plane:target \
-    alpine/socat -dd \
+    alpine/socat \
     tcp-listen:80,fork,reuseaddr tcp-connect:target:${node_port}
 
 Test with your own DNS:
