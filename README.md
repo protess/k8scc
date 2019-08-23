@@ -1,6 +1,6 @@
 # Kubernetes Crash Course
 ## Prerequisite
-> Requirement: Mac
+> _Requirement: Mac model 2010+, OS 10.12+_
 ### Docker
 
 Install **_[docker for mac](https://docs.docker.com/docker-for-mac/install/)._**  
@@ -17,8 +17,6 @@ You can manage **_Go_** verions with **_[gvm]_**
     
     mv ./kubectl /usr/local/bin/kubectl
     
-    alias k='kubectl'
-
 ### KIND
 
 
@@ -26,15 +24,22 @@ You can manage **_Go_** verions with **_[gvm]_**
 
     export PATH="$PATH:$(go env GOPATH)/bin"
 
+### Aliases
+
+    alias k='kubectl'
+    
+    alias chrome="/Applications/Google\\ \\Chrome.app/Contents/MacOS/Google\\ \\Chrome"
+
+[
 ### Useful Tools
 
-kubectl command shell **[auto-completion]**  
+kubectl command shell _**[auto-completion]**_  
 
     ### for oh-my-zsh
     plugins=(... kubectl)
 
-k8s context/namespace changer **[kubectx/kubens]**  
-Awesome k8s shell prompt **[kube ps1](https://github.com/jonmosco/kube-ps1)**  
+k8s context/namespace changer _**[kubectx/kubens]**_  
+Awesome k8s shell prompt _**[kube ps1](https://github.com/jonmosco/kube-ps1)**_  
 
 ## Practice
 
@@ -57,7 +62,7 @@ or:
     k get pods --all-namespaces
 
 ### Web UI(Dashboard)
-Install **_[dashboard]:_**
+Install _**[dashboard]:**_
 
     kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta1/aio/deploy/recommended.yaml
 
@@ -70,7 +75,7 @@ Install **_[dashboard]:_**
     ### Run below from another terminal:
     k proxy
 
-Click this **_[link](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/)_** to open dashboard in your web browser.
+Click this _**[link](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/)**_ to open dashboard in your web browser.
 
 To _disable_ session time-out:
 
@@ -82,7 +87,7 @@ To _disable_ session time-out:
       - --token-ttl=0
 
 ### Install Ingress-nginx
-Installation **_[Guide](https://kubernetes.github.io/ingress-nginx/deploy/)_**
+Installation _**[Guide](https://kubernetes.github.io/ingress-nginx/deploy/)**_
 
     kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/mandatory.yaml
 
@@ -134,24 +139,20 @@ Scale in/out Deployments:
 
 ### Expose & Test
 
-Intall socat to expose 80/443 port:
+Intall _socat_ to expose 80/443 port:
 
-    for port in 80 443
-    do
-        node_port=$(kubectl get service -n ingress-nginx ingress-nginx -o=jsonpath="{.spec.ports[?(@.port == ${port})].nodePort}")
+  
+    node_port=$(kubectl get service -n ingress-nginx ingress-nginx -o=jsonpath="{.spec.ports[?(@.port == ${port})].nodePort}")
 
-        docker run -d --name kind-proxy-${port} \
-        --publish 127.0.0.1:${port}:${port} \
-        --link kind-m-control-plane:target \
-        alpine/socat -dd \
-        tcp-listen:${port},fork,reuseaddr tcp-connect:target:${node_port}
-    done
+    docker run -d --name kind-proxy-80 \
+    --publish 127.0.0.1:80:80 \
+    --link kind-m-control-plane:target \
+    alpine/socat -dd \
+    tcp-listen:80,fork,reuseaddr tcp-connect:target:${node_port}
 
 Test with your own DNS:
 
-    www.192.168.1.20.xip.io
-    blog.192.168.1.20.xip.io
-
+    chrome http://www.$IP.xip.io
 
 ### Delete resources and cluster
     k --namespace=wordpress delete --all
@@ -169,20 +170,20 @@ Test with your own DNS:
 
 ### Blogs and Documentations
 
-subicura님의 **[쿠버네티스 시작하기 블로그](https://subicura.com/2019/05/19/kubernetes-basic-1.html)**  
+subicura님의 _**[쿠버네티스 시작하기 블로그](https://subicura.com/2019/05/19/kubernetes-basic-1.html)**_  
 
 
-**[Kubernetes Documentation(KR)](https://kubernetes.io/ko/docs/concepts/overview/what-is-kubernetes/)**  
+_**[Kubernetes Documentation(KR)](https://kubernetes.io/ko/docs/concepts/overview/what-is-kubernetes/)**_  
 
-K8S Deep Dive: API Server **_[Part1](https://blog.openshift.com/kubernetes-deep-dive-api-server-part-1/), [Part2](https://blog.openshift.com/kubernetes-deep-dive-api-server-part-2/), [Part3](https://blog.openshift.com/kubernetes-deep-dive-api-server-part-3a/)_**
+K8S Deep Dive: API Server _**[Part1](https://blog.openshift.com/kubernetes-deep-dive-api-server-part-1/), [Part2](https://blog.openshift.com/kubernetes-deep-dive-api-server-part-2/), [Part3](https://blog.openshift.com/kubernetes-deep-dive-api-server-part-3a/)**_
 
-**[Google Container(KR)](https://cloud.google.com/containers/?hl=ko)**  
-
-
-이어형님 **_[딥다이브](https://engineering.linecorp.com/ko/blog/immutable-kubernetes-architecture-deepdive/)_**  
+_**[Google Container(KR)](https://cloud.google.com/containers/?hl=ko)**_  
 
 
-Dockerfile **[Best Practices](https://bit.ly/dockerbp)**
+이어형님 _**[딥다이브](https://engineering.linecorp.com/ko/blog/immutable-kubernetes-architecture-deepdive/)**_  
+
+
+Dockerfile _**[Best Practices](https://bit.ly/dockerbp)**_
 
 
 [kubectx/kubens]:
