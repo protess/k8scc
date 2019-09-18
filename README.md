@@ -22,8 +22,9 @@ You can manage **_Go_** verions with **_[gvm]_**
     
 ### KIND
 
+Refer to _**[KIND](https://github.com/kubernetes-sigs/kind)**_ for more details
 
-    GO111MODULE="on" go get sigs.k8s.io/kind@v0.5.0
+    GO111MODULE="on" go get sigs.k8s.io/kind@v0.5.1
 
     export PATH="$PATH:$(go env GOPATH)/bin"
 
@@ -43,6 +44,8 @@ kubectl command shell _**[auto-completion]**_
 
 k8s context/namespace changer _**[kubectx/kubens]**_  
 Awesome k8s shell prompt _**[kube ps1](https://github.com/jonmosco/kube-ps1)**_  
+k8s CLI manage tool _**[k9s]**_
+
 
 ## Practice
 
@@ -63,6 +66,11 @@ or:
     k cluster-info
     k get nodes
     k get pods --all-namespaces
+
+### Install metrics-server
+Refer to _**[metrics-server](https://github.com/kubernetes-incubator/metrics-server)**_ for more information
+
+    k apply -f ./metrics-server
 
 ### Web UI(Dashboard)
 Install _**[dashboard]:**_
@@ -209,3 +217,6 @@ https://github.com/moovweb/gvm
 
 [Homebrew]:
 https://brew.sh/
+
+[k9s]:
+https://k9ss.io/?fbclid=IwAR0MQO9yBF5iKpJlDkuSNtrWGy72zK81I-j071lrKQsV1DLhloOMknOLd64
