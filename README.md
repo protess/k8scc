@@ -37,19 +37,20 @@ Refer to _**[KIND](https://github.com/kubernetes-sigs/kind)**_ for more details
 
 ### Useful Tools
 
-kubectl command shell _**[auto-completion]**_  
+_kubectl_ command shell _**[auto-completion]**_  
 
     ### for oh-my-zsh
     plugins=(... kubectl)
 
 k8s context/namespace changer _**[kubectx/kubens]**_  
 Awesome k8s shell prompt _**[kube ps1](https://github.com/jonmosco/kube-ps1)**_  
-k8s CLI manage tool _**[k9s]**_
+Very cool k8s CLI manage tool _**[k9s]**_
 
 
 ## Practice
 
 ### Create k8s multi-node cluster with KIND
+Will create 1 master and 2 worker nodes.  
 
     kind create cluster --name kind-m --config kind-test-config.yaml
 
@@ -67,10 +68,85 @@ or:
     k get nodes
     k get pods --all-namespaces
 
+
 ### Install metrics-server
 Refer to _**[metrics-server](https://github.com/kubernetes-incubator/metrics-server)**_ for more information
 
     k apply -f ./metrics-server
+
+### Install Ingress-nginx
+Installation _**[Guide](https://kubernetes.github.io/ingress-nginx/deploy/)**_
+
+    kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/mandatory.yaml
+
+    ### create service with nodeport
+    kubectl apply -f ./ingress-nginx/
+
+
+
+
+### Deploy MariaDB(MySQL) for Wordpress - Stateful Sets
+Deploy _MariaDB:_
+    
+    k create namespace wordpress
+    k apply -f ./mysql
+
+    ### Check Stateful Sets
+    kubens wordpress
+    k get sts
+    k describe sts mysql
+
+### Deploy Wordpress - Deployment
+
+Deploy _Wordpress:_
+
+    ### get you local ip
+    IP=$(ifconfig | grep "inet " | grep -Fv 127.0.0.1 | awk '{print $2}')
+
+    ### replace ingress host with your IP
+    sed -i.bak "s/host.*/host: blog."$IP".nip.io/g" ./wordpress/ingress.yaml
+    
+    k apply -f ./wordpress
+
+    ### edit deployment
+    k edit deploy wordpress
+
+    ### port forward to check if wordpress is running correctly
+    WPOD=$(kubectl get pod -l app=wordpress -o jsonpath="{.items[0].metadata.name}")
+    
+    k port-forward pod/$WPOD 8090:80
+
+
+Scale in/out Deployments:
+
+    k scale deploy wordpress --replicas=3
+    k scale deploy wordpress --replicas=1
+
+    ### check services for wordpress
+    k get svc
+
+    ### check ingress
+    k get ingress
+
+    ### other commands
+    k explain deployment --recursive
+    k explain svc --recursive
+    k get pods -o wide --sort-by="{.spec.nodeName}"
+
+### Expose 
+Intall _socat_ to expose local 80 port:
+
+    docker run -d --name kind-proxy-80 \
+    --publish 80:80 \
+    --link kind-m-control-plane:target \
+    alpine/socat \
+    tcp-listen:80,fork,reuseaddr tcp-connect:target:32080
+
+### Test
+
+Test with your own DNS:
+
+    chrome http://blog.$IP.nip.io
 
 ### Web UI(Dashboard)
 Install _**[dashboard]:**_
@@ -97,73 +173,6 @@ To _disable_ session time-out:
     - args:
       - --token-ttl=0
 
-### Install Ingress-nginx
-Installation _**[Guide](https://kubernetes.github.io/ingress-nginx/deploy/)**_
-
-    kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/mandatory.yaml
-
-    ### create service
-    kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/cloud-generic.yaml
-
-### Deploy MariaDB(MySQL) for Wordpress - Stateful Sets
-Deploy _MariaDB:_
-    
-    k create namespace wordpress
-    k apply -f ./mysql
-
-    ### Check Stateful Sets
-    kubens wordpress
-    k get sts
-    k describe sts mysql
-
-### Deploy Wordpress - Deployment
-
-Deploy _Wordpress:_
-
-    ### get you local ip
-    IP=$(ifconfig | grep "inet " | grep -Fv 127.0.0.1 | $IP=awk '{print $2}')
-
-    ### replace ingress host with your IP
-    sed -i.bak "s/host.*/host: www."$IP".xip.io/g" $PWD/wordpress/ingress.yaml
-    
-    k apply -f ./wordpress
-
-    ### edit deployment
-    k edit deploy wordpress
-
-
-Scale in/out Deployments:
-
-    k scale deploy wordpress --replicas=3
-    k scale deploy wordpress --replicas=1
-
-    ### check services for wordpress
-    k get svc
-
-    ### check ingress
-    k get ingress
-
-    ### other commands
-    k explain deployment --recursive
-    k explain svc --recursive
-    k get pods -o wide --sort-by="{.spec.nodeName}"
-
-### Expose & Test
-
-Intall _socat_ to expose local 80 port:
-
-  
-    node_port=$(kubectl get service -n ingress-nginx ingress-nginx -o=jsonpath="{.spec.ports[?(@.port == ${port})].nodePort}")
-
-    docker run -d --name kind-proxy-80 \
-    --publish 127.0.0.1:80:80 \
-    --link kind-m-control-plane:target \
-    alpine/socat \
-    tcp-listen:80,fork,reuseaddr tcp-connect:target:${node_port}
-
-Test with your own DNS:
-
-    chrome http://www.$IP.xip.io
 
 ### Delete resources and cluster
     k --namespace=wordpress delete --all

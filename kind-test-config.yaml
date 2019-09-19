@@ -5,7 +5,9 @@ nodes:
 - role: control-plane
 - role: worker
 - role: worker
-  extraPortMappings:
-  - containerPort: 31689
-    hostPort: 8080
-    listenAddress: "127.0.0.1"
+
+# uncomment below to enable nodeport on localhost:8080
+  # extraPortMappings:
+  # - containerPort: 31689
+  #   hostPort: 8080
+  #   listenAddress: "127.0.0.1"

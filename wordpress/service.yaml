@@ -6,10 +6,8 @@ metadata:
   name: wordpress
   namespace: wordpress
 spec:
-  type: NodePort
   ports:
-    - nodePort: 31689
-      port: 80
+    - port: 8081
       protocol: TCP
       targetPort: 80
   selector:

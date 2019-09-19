@@ -5,15 +5,10 @@ metadata:
   namespace: wordpress
   annotations:
     kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_set_header l5d-dst-override $service_name.$namespace.svc.cluster.local:8081;
-      proxy_set_header Origin "";
-      proxy_hide_header l5d-remote-ip;
-      proxy_hide_header l5d-server-id;
     nginx.ingress.kubernetes.io/proxy-body-size: "500m"
 spec:
   rules:
-  - host: www.192.168.0.242.xip.io
+  - host: blog.192.168.0.242.nip.io
     http:
       paths:
       - backend:
