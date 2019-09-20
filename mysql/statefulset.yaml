@@ -6,7 +6,7 @@ metadata:
     name: mysql  
   namespace: wordpress
 spec:
-  serviceName: "mysql"
+  serviceName: mysql
   replicas: 1
   template:
     metadata:
@@ -22,7 +22,10 @@ spec:
           name: mysql
         env:
           - name: MYSQL_ROOT_PASSWORD
-            value: bigintest123
+            valueFrom:
+              secretKeyRef:
+                name: mysql-pass
+                key: password
         volumeMounts:
         - name: db
           mountPath: /var/lib/mysql
