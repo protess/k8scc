@@ -28,6 +28,7 @@ spec:
       - name: tmp-dir
         emptyDir: {}
       containers:
+      # below command options are not suitable for production
       - command:
         - /metrics-server
         - --v=2

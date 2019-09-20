@@ -14,11 +14,15 @@ Install **_Go_** download from **_[golang.org]_**
 You can manage **_Go_** verions with **_[gvm]_**
 
 ### Kubectl
-    curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+    ### download kubectl 1.16.0
+    curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.16.0/bin/darwin/amd64/kubectl
 
     chmod -x ./kubectl
     
     mv ./kubectl /usr/local/bin/kubectl
+
+    ### if kubectl isn't executable
+    chmod 755 /usr/local/bin/kubectl
     
 ### KIND
 
@@ -79,7 +83,7 @@ Installation _**[Guide](https://kubernetes.github.io/ingress-nginx/deploy/)**_
 
     kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/mandatory.yaml
 
-    ### create service with nodeport
+    ### create service with nodeport 32080, 32433
     kubectl apply -f ./ingress-nginx/
 
 
@@ -133,7 +137,7 @@ Scale in/out Deployments:
     k get pods -o wide --sort-by="{.spec.nodeName}"
 
 ### Expose Ingress
-Intall _socat_ to expose local 80 port:
+Intall _socat_ to expose nodeport on local 80 port:
 
     docker run -d --name kind-proxy-80 \
     --publish 80:80 \

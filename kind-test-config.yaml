@@ -6,7 +6,7 @@ nodes:
 - role: worker
 - role: worker
 
-# uncomment below to enable nodeport on localhost:8080
+# uncomment below to expose nodeport on localhost:8080
   # extraPortMappings:
   # - containerPort: 31689
   #   hostPort: 8080
