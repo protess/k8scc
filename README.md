@@ -167,7 +167,7 @@ Test with your own DNS:
 ### Web UI(Dashboard)
 Install _**[dashboard]:**_
 
-    kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta1/aio/deploy/recommended.yaml
+    kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta4/aio/deploy/recommended.yaml
 
     ### Run below to fix auth
     k apply -f ./dashboard
