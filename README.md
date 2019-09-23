@@ -193,6 +193,8 @@ To _disable_ session time-out:
 
     ### metrics-server must be running
     kubectl apply -f ./extra
+### Demo - ASCIINEMA
+[![asciicast](https://asciinema.org/a/iCGUAa1YL4HMudU0UIkZZea2W.svg)](https://asciinema.org/a/iCGUAa1YL4HMudU0UIkZZea2W)
 
 ### Blogs and Documentations
 
