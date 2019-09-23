@@ -46,10 +46,10 @@ _kubectl_ command shell _**[auto-completion]**_
     ### for oh-my-zsh
     plugins=(... kubectl)
 
-k8s context/namespace changer _**[kubectx/kubens]**_  
-Awesome k8s shell prompt _**[kube ps1](https://github.com/jonmosco/kube-ps1)**_  
-Very cool k8s CLI manage tool _**[k9s]**_
-
+* k8s context/namespace changer _**[kubectx/kubens]**_  
+* Awesome k8s shell prompt _**[kube ps1](https://github.com/jonmosco/kube-ps1)**_  
+* Very cool k8s CLI manage tool _**[k9s]**_  
+* Multiple pods log tool for k8s _**[stern]**_
 
 ## Practice
 
@@ -238,3 +238,6 @@ https://brew.sh/
 
 [k9s]:
 https://k9ss.io/?fbclid=IwAR0MQO9yBF5iKpJlDkuSNtrWGy72zK81I-j071lrKQsV1DLhloOMknOLd64
+
+[stern]:
+https://github.com/wercker/stern
