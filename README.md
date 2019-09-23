@@ -195,7 +195,7 @@ To _disable_ session time-out:
     kubectl apply -f ./extra
 
 ### Demo - ASCIINEMA
-[![asciicast](https://asciinema.org/a/P78cQNXLwhxitBSdjAyLko03v.svg)](https://asciinema.org/a/P78cQNXLwhxitBSdjAyLko03v)
+[![asciicast](https://asciinema.org/a/gM5ljzLZHJcieRLrzyKdf7xjw.svg)](https://asciinema.org/a/gM5ljzLZHJcieRLrzyKdf7xjw)
 
 ### Blogs and Documentations
 
