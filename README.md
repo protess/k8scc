@@ -14,6 +14,9 @@ Install **_Go_** download from **_[golang.org]_**
 You can manage **_Go_** verions with **_[gvm]_**
 
 ### Kubectl
+    ### Install with Homebrew on macOS
+    brew install kubernetes-cli
+
     ### download kubectl 1.16.0
     curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.16.0/bin/darwin/amd64/kubectl
 
