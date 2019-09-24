@@ -110,7 +110,7 @@ Deploy _Wordpress:_
     kubectl apply -f ./wordpress
 
     ### edit deployment
-    kubectl edit deploy wordpress
+    kubectl edit deploy -n wordpress
 
     ### port forward to check if wordpress is running correctly
     WPOD=$(kubectl get -n wordpress pod -l app=wordpress -o jsonpath="{.items[0].metadata.name}")
