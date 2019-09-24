@@ -87,8 +87,6 @@ Installation _**[Guide](https://kubernetes.github.io/ingress-nginx/deploy/)**_
     kubectl apply -f ./ingress-nginx/
 
 
-
-
 ### Deploy MariaDB(MySQL) for Wordpress - Stateful Sets
 Deploy _MariaDB:_
     
@@ -196,6 +194,23 @@ To _disable_ session time-out:
 
 ### Demo - ASCIINEMA
 [![asciicast](https://asciinema.org/a/gM5ljzLZHJcieRLrzyKdf7xjw.svg)](https://asciinema.org/a/gM5ljzLZHJcieRLrzyKdf7xjw)
+
+### Debug
+
+Refer to _**[K8S Debug Services](https://kubernetes.io/docs/tasks/debug-application-cluster/debug-service/)**_ for details
+
+    # Run alpine image to troubleshoot
+    kubectl run -it --rm --restart=Never alpine --image=alpine sh
+
+    # lookup service
+    nslookup wordpress
+    
+    # check svc name/IP
+    wget -SO- wordpress:8081
+    wget -SO- <SVC_IP>:8081
+
+    # check pod endpoint
+    wget -SO- <POD ID:80>
 
 ### Blogs and Documentations
 
